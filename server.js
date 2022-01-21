@@ -6,7 +6,7 @@ const app = require("./app");
 
 app.use(cors());
 dotenv.config({ path: "./config.env" });
-const port = 4000;
+const port = process.env.PORT || 4000
 
 const DB = process.env.DB.replace("<password>", process.env.PASSWORD);
 
