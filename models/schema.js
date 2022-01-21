@@ -12,7 +12,11 @@ const userSchema = new mongoose.Schema({
     required: [true, "user must have email"],
     profile: String,
   },
-  UID: Number,
+  UID: {
+    unique: true,
+    type: Number,
+    required: [true, "user must have UID"],
+  },
 });
 const userInfo = mongoose.model("User", userSchema);
 
