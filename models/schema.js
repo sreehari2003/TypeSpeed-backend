@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
   },
   UID: {
     unique: true,
-    type: Number,
+    type: String,
     required: [true, "user must have UID"],
   },
   image: {
