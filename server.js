@@ -30,10 +30,6 @@ const connect = async () => {
 };
 connect();
 
-if (process.env.NODE_ENV !== "production") {
-  app.use(morgan("dev"));
-}
-
 app.listen(port, () => {
   console.log("listening on port " + port);
 });

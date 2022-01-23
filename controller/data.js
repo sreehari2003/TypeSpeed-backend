@@ -32,9 +32,26 @@ exports.postData = async (req, res, next) => {
     });
   }
 };
+
+exports.getOneUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const datas = await data.findOne({ _id: id });
+
+    res.status(201).json({
+      ok: true,
+      datas,
+    });
+  } catch (e) {
+    res.status(404).json({
+      ok: false,
+    });
+  }
+};
+
 exports.updateScore = async (req, res) => {
   try {
-    const id = req.body.UID;
+    const id = req.params.id;
     const up = await data.findByIdAndUpdate(id, req.body, {
       new: true,
     });
