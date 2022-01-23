@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     // required: [true, "user must have image"]
   },
+  score: {
+    type: Number,
+    required: [true, "user must have score"],
+  },
 });
 const userInfo = mongoose.model("User", userSchema);
 
