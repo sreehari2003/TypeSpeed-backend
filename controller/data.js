@@ -32,3 +32,19 @@ exports.postData = async (req, res, next) => {
     });
   }
 };
+exports.updateScore = async (req, res) => {
+  try {
+    const id = req.body.UID;
+    const up = await data.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    res.status(201).json({
+      ok: true,
+      data: up,
+    });
+  } catch (e) {
+    res.status(404).json({
+      ok: false,
+    });
+  }
+};
