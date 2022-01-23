@@ -11,6 +11,7 @@ exports.getAllUsers = async (req, res, next) => {
     res.status(404).json({
       ok: false,
       error: "something went wrong try again later",
+      problem: e,
     });
   }
 };
@@ -27,6 +28,7 @@ exports.postData = async (req, res, next) => {
     res.status(404).json({
       ok: false,
       error: "something went wrong try again later",
+      problem: e,
     });
   }
 };

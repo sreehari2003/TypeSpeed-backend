@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
     type: Number,
     required: [true, "user must have UID"],
   },
+  image: {
+    type: String,
+    // required: [true, "user must have image"]
+  },
 });
 const userInfo = mongoose.model("User", userSchema);
 
