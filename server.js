@@ -12,7 +12,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions)); // Use this after the variable declaration
 dotenv.config({ path: "./config.env" });
-const port = 4000;
+const port = process.env.PORT || 4000
 
 const DB = process.env.DB.replace("<password>", process.env.PASSWORD);
 
