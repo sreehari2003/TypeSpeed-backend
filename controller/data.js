@@ -1,4 +1,7 @@
 const data = require("../models/schema");
+const { sentence } = require("txtgen/dist/cjs/txtgen.js");
+
+// console.log(newWord);
 
 exports.getAllUsers = async (req, res, next) => {
   try {
@@ -62,6 +65,25 @@ exports.updateScore = async (req, res) => {
   } catch (e) {
     res.status(404).json({
       ok: false,
+    });
+  }
+};
+
+exports.sendData = async (req, res) => {
+  try {
+    const word = sentence();
+    const secondword = sentence();
+
+    const newWord = word + " " + secondword;
+    const data = await newWord;
+    res.status(200).json({
+      ok: true,
+      data,
+    });
+  } catch (e) {
+    res.status(404).json({
+      ok: false,
+      error: e,
     });
   }
 };
