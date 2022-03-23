@@ -14,10 +14,11 @@ app.use(cors(corsOptions)); // Use this after the variable declaration
 dotenv.config();
 const port = process.env.PORT || 4000
 
-const DB = process.env.DB.replace("<password>", process.env.PASSWORD);
+
 
 const connect = async () => {
   try {
+    const DB = process.env.DB.replace("<password>", process.env.PASSWORD);
   await  mongoose.connect(DB, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
