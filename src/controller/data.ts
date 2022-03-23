@@ -5,7 +5,7 @@ import {sentence } from "txtgen"
 
 // console.log(newWord);
 
-const getAllUsers = async ( res:Response) => {
+const getAllUsers = async ( req:Request,res:Response) => {
   try {
     const users = await data.find();
     res.status(201).json({
@@ -71,7 +71,7 @@ const updateScore = async (req:Request, res:Response) => {
   }
 };
 
-const sendData = async ( res:Response) => {
+const sendData = async ( req: Request, res: Response) => {
   try {
     const word = sentence();
     const secondword = sentence();

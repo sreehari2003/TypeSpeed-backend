@@ -1,4 +1,4 @@
-import express,{Response} from 'express';
+import express,{Request,Response} from 'express';
 const app = express();
 import morgan from "morgan";
 
@@ -8,9 +8,15 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const userRoutes = require("./routes/dataRoutes");
-app.get("/",(res:Response) => {
- res.send("<h1>hello world</h1>");
+
+app.get("/", (req:Request, res:Response) => {
+   res.status(201).json({
+     ok: true,
+     message:"server is running well"
+   })
 })
+
+
 app.use(express.json());
 app.use("/api", userRoutes);
 
