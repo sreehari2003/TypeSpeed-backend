@@ -3,7 +3,6 @@ import {Request,Response} from 'express';
 import data from "../models/schema"
 import {sentence } from "txtgen"
 
-// console.log(newWord);
 
 const getAllUsers = async ( req:Request,res:Response) => {
   try {
