@@ -1,4 +1,4 @@
-// const mongoose = require("mongoose");
+
 import dotenv from "dotenv";
 import cors from "cors";
 import app from "./app"
@@ -14,7 +14,7 @@ app.use(cors(corsOptions)); // Use this after the variable declaration
 dotenv.config();
 const port = process.env.PORT || 4000
 
-const DB = process.env.DB.replace("<password>", process.env.PASSWORD);
+const DB = process.env.DATABASE.replace("<password>", process.env.PASSWORD);
 
 const connect = async () => {
   try {
