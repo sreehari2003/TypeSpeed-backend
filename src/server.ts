@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-const cors = require("cors");
-const morgan = require("morgan");
-const app = require("./app");
+// const mongoose = require("mongoose");
+import dotenv from "dotenv";
+import cors from "cors";
+import app from "./app"
+import mongoose,{ ConnectOptions } from "mongoose";
 
 const corsOptions = {
   origin: "*",
@@ -11,17 +11,17 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions)); // Use this after the variable declaration
-dotenv.config({ path: "./config.env" });
+dotenv.config();
 const port = process.env.PORT || 4000
 
 const DB = process.env.DB.replace("<password>", process.env.PASSWORD);
 
 const connect = async () => {
   try {
-    await mongoose.connect(DB, {
+  await  mongoose.connect(DB, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    });
+    }as ConnectOptions);
     console.log("mongodb connected");
   } catch (e) {
     console.log("error connecting to mongoose");

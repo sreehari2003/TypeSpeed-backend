@@ -1,9 +1,11 @@
-const data = require("../models/schema");
-const { sentence } = require("txtgen/dist/cjs/txtgen.js");
+
+import {Request,Response} from 'express';
+import data from "../models/schema"
+import {sentence } from "txtgen"
 
 // console.log(newWord);
 
-exports.getAllUsers = async (req, res, next) => {
+const getAllUsers = async ( res:Response) => {
   try {
     const users = await data.find();
     res.status(201).json({
@@ -18,7 +20,7 @@ exports.getAllUsers = async (req, res, next) => {
     });
   }
 };
-exports.postData = async (req, res, next) => {
+const postData = async (req:Request, res:Response) => {
   try {
     const newUser = await data.create(req.body);
     res.status(201).json({
@@ -36,7 +38,7 @@ exports.postData = async (req, res, next) => {
   }
 };
 
-exports.getOneUser = async (req, res) => {
+const getOneUser = async (req:Request, res:Response) => {
   try {
     const id = req.params.id;
     const datas = await data.findOne({ _id: id });
@@ -52,7 +54,7 @@ exports.getOneUser = async (req, res) => {
   }
 };
 
-exports.updateScore = async (req, res) => {
+const updateScore = async (req:Request, res:Response) => {
   try {
     const id = req.params.id;
     const up = await data.findByIdAndUpdate(id, req.body, {
@@ -69,7 +71,7 @@ exports.updateScore = async (req, res) => {
   }
 };
 
-exports.sendData = async (req, res) => {
+const sendData = async ( res:Response) => {
   try {
     const word = sentence();
     const secondword = sentence();
@@ -87,3 +89,5 @@ exports.sendData = async (req, res) => {
     });
   }
 };
+
+export  {sendData ,updateScore,getOneUser,postData,getAllUsers};
