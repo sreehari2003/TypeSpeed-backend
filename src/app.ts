@@ -5,8 +5,8 @@ import cors from "cors";
 
 
 const corsOptions = {
-  origin: ["https://typeintern.netlify.app/","http://localhost:4000/","https://typespeednext.herokuapp.com/"],
-  // origin:"*",
+ // origin: ["https://typeintern.netlify.app/","http://localhost:4000/","https://typespeednext.herokuapp.com/"],
+   origin:"*",
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
