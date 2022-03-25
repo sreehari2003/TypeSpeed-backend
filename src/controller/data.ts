@@ -1,7 +1,36 @@
 
-import {Request,Response} from 'express';
-import data from "../models/schema"
+import {Request,Response,NextFunction} from 'express';
+import data  from "../models/schema"
 import {sentence } from "txtgen"
+import jwt,{JwtPayload} from "jsonwebtoken"
+import catchAsync from "../utils/wrapAsync"
+import appError from "../utils/AppError"
+
+const createToken = (id:string)=>{
+  const token =  jwt.sign({id:id},process.env.KEY)
+  return token;
+}
+
+const protect = catchAsync(async (req:Request, res:Response, next:NextFunction)=>{
+  let token;
+  if(req.headers && req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
+     token = req.headers.authorization.split(" ")[1] ;
+  }else{
+    return next(new appError("account not found",404));
+  }
+  const {id} = jwt.verify(token,process.env.KEY) as JwtPayload;
+  if(!id){
+    return next(new appError("account not found",404));
+  }
+  const user= await data.findById(id);
+  if(!user){
+    return next(new appError("account not found",404));
+  }
+
+  next();
+})
+
+
 
 
 const getAllUsers = async ( req:Request,res:Response) => {
@@ -19,14 +48,25 @@ const getAllUsers = async ( req:Request,res:Response) => {
     });
   }
 };
+
 const postData = async (req:Request, res:Response) => {
   try {
     const newUser = await data.create(req.body);
+    const token = createToken(newUser.id);
+
+    if(!newUser) {
+      res.status(404).json({
+        ok:false,
+        message: "could not create new user",
+      })
+    }
     res.status(201).json({
       ok: true,
       data: {
         user: newUser,
+        token
       },
+      message: "user created successfully"
     });
   } catch (e) {
     res.status(404).json({
@@ -40,11 +80,18 @@ const postData = async (req:Request, res:Response) => {
 const getOneUser = async (req:Request, res:Response) => {
   try {
     const id = req.params.id;
-    const datas = await data.findOne({ _id: id });
-
-    res.status(201).json({
+    const datas = await data.findById(id);
+   if(!datas){
+     res.status(404).json({
+       ok: false,
+       message: "user does not exist",
+     })
+   }
+  const token = createToken(id);
+     res.status(201).json({
       ok: true,
       datas,
+      token
     });
   } catch (e) {
     res.status(404).json({
@@ -88,5 +135,18 @@ const sendData = async ( req: Request, res: Response) => {
     });
   }
 };
+const deleteAccount = catchAsync(async (req:Request, res:Response,next:NextFunction)=>{
+      const {id} = req.params
+      if(!id){
+        return next(new appError("account not found",404));
+      }
+     await data.findByIdAndDelete(id);
+    res.status(201).json({ok: true,message: "account deleted successfully"})   
+ 
+})
 
-export  {sendData ,updateScore,getOneUser,postData,getAllUsers};
+
+
+
+
+export  {sendData ,updateScore,getOneUser,postData,getAllUsers,protect,deleteAccount};
