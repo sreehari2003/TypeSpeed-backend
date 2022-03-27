@@ -1,5 +1,15 @@
 import mongoose from "mongoose";
 
+export interface use{
+   name: string;
+   email: string;
+   UID: string;
+   image: string;
+   score?:number;
+   _id:string;
+}
+
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -26,6 +36,6 @@ const userSchema = new mongoose.Schema({
     required: [true, "user must have score"],
   },
 });
-const userInfo = mongoose.model("User", userSchema);
+const userInfo = mongoose.model<use>("User", userSchema);
 
 export default userInfo;

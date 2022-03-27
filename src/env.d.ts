@@ -3,5 +3,6 @@ declare namespace NodeJS {
       DATABASE: string;
       PORT: string;
       PASSWORD: string;
+      KEY: string;
     }
   }
