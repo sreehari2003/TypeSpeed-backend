@@ -5,7 +5,7 @@ export interface use{
    email: string;
    UID: string;
    image: string;
-   score?:number;
+   score:number;
    _id:string;
 }
 
@@ -34,6 +34,7 @@ const userSchema = new mongoose.Schema({
   score: {
     type: Number,
     required: [true, "user must have score"],
+    default:0
   },
 });
 const userInfo = mongoose.model<use>("User", userSchema);

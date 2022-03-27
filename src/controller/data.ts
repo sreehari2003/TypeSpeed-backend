@@ -41,7 +41,7 @@ const findUser = catchAsync(
     // console.log(user)
     if (user) {
       const token = createToken(user._id);
-    res.status(201).json({
+      res.status(201).json({
         ok: true,
         data: {
           user: user,
@@ -49,7 +49,7 @@ const findUser = catchAsync(
         message: "welcome back user",
         token,
       });
-    }else{
+    } else {
       next();
     }
   }
@@ -76,12 +76,12 @@ const postData = async (req: Request, res: Response) => {
     const token = createToken(newUser.id);
 
     if (!newUser) {
-   return   res.status(404).json({
+      return res.status(404).json({
         ok: false,
         message: "could not create new user",
       });
     }
-  return  res.status(201).json({
+    return res.status(201).json({
       ok: true,
       data: {
         user: newUser,
@@ -90,7 +90,7 @@ const postData = async (req: Request, res: Response) => {
       message: "user created successfully",
     });
   } catch (e) {
- return   res.status(404).json({
+    return res.status(404).json({
       ok: false,
       error: "something went wrong try again later",
     });
@@ -120,23 +120,34 @@ const getOneUser = async (req: Request, res: Response) => {
   }
 };
 
-const updateScore = async (req: Request, res: Response) => {
-  try {
+const updateScore = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
-    const up = await data.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
-    res.status(201).json({
-      ok: true,
-      data: up,
-    });
-  } catch (e) {
-    res.status(404).json({
-      ok: false,
-    });
-  }
-};
+    const user = await data.findById(id);
+    console.log(req.body)
+    if (!user) {
+      return next(new appError("user not found", 404));
+    }
+    const {score} = req.body;    
+    console.log(score)
+    if (user?.score) {
+      if (user.score >= score) {
+        return next(
+          new appError("new score is less than the current score",201)
+        );
+      }
+    }
+      const up = await data.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
+      res.status(201).json({
+        ok: true,
+        data: up,
+        message: "Score updated",
+      });
 
+  }
+);
 const sendData = async (req: Request, res: Response) => {
   try {
     const word = sentence();
@@ -175,5 +186,5 @@ export {
   getAllUsers,
   protect,
   deleteAccount,
-  findUser
+  findUser,
 };
