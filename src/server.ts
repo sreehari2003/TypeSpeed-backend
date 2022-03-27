@@ -5,7 +5,6 @@ import app from "./app"
 import mongoose,{ ConnectOptions } from "mongoose";
 
 const corsOptions = {
-  // origin: ["https://typeintern.netlify.app/","http://localhost:4000/","https://typespeednext.herokuapp.com/"],
   origin:"*",
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
@@ -17,6 +16,7 @@ dotenv.config();
 const port = process.env.PORT || 4000
 
 const DB = process.env.DATABASE.replace("<password>", process.env.PASSWORD);
+
 
 const connect = async () => {
   try {
