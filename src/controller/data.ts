@@ -124,12 +124,10 @@ const updateScore = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
     const user = await data.findById(id);
-    console.log(req.body)
     if (!user) {
       return next(new appError("user not found", 404));
     }
     const {score} = req.body;    
-    console.log(score)
     if (user?.score) {
       if (user.score >= score) {
         return next(
