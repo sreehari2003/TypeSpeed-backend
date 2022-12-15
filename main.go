@@ -2,17 +2,20 @@ package main
 
 import (
 	"net/http"
+	"typespeed/router"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 
-	router := gin.Default()
+	router := router.CreateRoute()
+
 	router.GET("/", func(c *gin.Context) {
-		c.IndentedJSON(http.StatusOK, gin.H{
-			"message": "app running on  PORT 8080 Succesfully",
+		c.JSON(http.StatusOK, gin.H{
+			"message": "api is running on port 8080",
 		})
 	})
+
 	router.Run("localhost:8080")
 }
